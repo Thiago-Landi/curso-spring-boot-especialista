@@ -11,8 +11,10 @@ import com.Thiago_Landi.produtosapi.model.Product;
 @RequestMapping("products")
 public class ProductController {
 
+	// o RequestBody serve para transformar os dados recebido no postman em um objeto java
 	@PostMapping
-	public void save(@RequestBody Product product) {
+	public Product save(@RequestBody Product product) {
 		System.out.println("Product received: " + product);
+		return product;
 	}
 }
