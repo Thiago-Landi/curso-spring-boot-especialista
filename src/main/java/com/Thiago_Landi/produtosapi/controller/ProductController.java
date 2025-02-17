@@ -1,8 +1,12 @@
 package com.Thiago_Landi.produtosapi.controller;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,4 +31,21 @@ public class ProductController {
 		repository.save(product);
 		return product;
 	}
+	
+	@GetMapping("/{id}")
+	public Product findById(@PathVariable String id) {
+		Optional<Product> obj = repository.findById(id);
+		return obj.orElse(null);
+	}
+	
+	@DeleteMapping("/{id}")
+	public void delete(@PathVariable String id) {
+		if(repository.existsById(id)) {
+			repository.deleteById(id);
+		}
+		else {
+			System.out.println("Id inexistente");
+		}
+	}
+	
 }
