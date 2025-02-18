@@ -1,5 +1,6 @@
 package com.Thiago_Landi.produtosapi.controller;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -8,8 +9,10 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.Thiago_Landi.produtosapi.model.Product;
@@ -48,4 +51,21 @@ public class ProductController {
 		}
 	}
 	
+	@PutMapping("/{id}")
+	public void update(@PathVariable String id,@RequestBody Product obj) {
+		Product product = findById(id);
+		updateData(product, obj);
+		repository.save(product);
+	}
+	
+	public void updateData(Product product, Product obj) {
+		product.setName(obj.getName());
+		product.setDescription(obj.getDescription());
+		product.setPrice(obj.getPrice());
+	}
+	
+	@GetMapping
+	public List<Product> search(@RequestParam("name") String name) {
+		return repository.findByName(name);
+	}
 }
